@@ -773,11 +773,11 @@
     <div class="phone-frame">
       <!-- Chấm điều hướng (chấm thứ 5 chỉ mở khóa sau khi khách bấm Xác nhận) -->
       <nav class="nav-dots" aria-label="Điều hướng các trang thiệp">
-        <button type="button" class="nav-dot active" data-slide="0" aria-label="Trang 1: Bìa thiệp"></button>
-        <button type="button" class="nav-dot" data-slide="1" aria-label="Trang 2: Lời mời"></button>
-        <button type="button" class="nav-dot" data-slide="2" aria-label="Trang 3: Thông điệp"></button>
-        <button type="button" class="nav-dot" data-slide="3" aria-label="Trang 4: Phản hồi"></button>
-        <button type="button" id="dotPage5" class="nav-dot hidden" data-slide="4" aria-label="Trang 5: Xác nhận"></button>
+        <button type="button" class="nav-dot active" data-slide="page-1" aria-label="Trang 1: Bìa thiệp"></button>
+        <button type="button" class="nav-dot" data-slide="page-2" aria-label="Trang 2: Lời mời"></button>
+        <button type="button" class="nav-dot" data-slide="page-3" aria-label="Trang 3: Thông điệp"></button>
+        <button type="button" id="dotPage4" class="nav-dot" data-slide="page-4" aria-label="Trang 4: Phản hồi"></button>
+        <button type="button" id="dotPage5" class="nav-dot hidden" data-slide="page-5" aria-label="Trang 5: Xác nhận"></button>
       </nav>
 
       <main id="slides" class="slides">
@@ -894,7 +894,7 @@
             </div>
           </div>
 
-          <button type="button" class="next-cue" data-next="1">
+          <button type="button" class="next-cue" data-next="page-2">
             Lướt mở thiệp
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
@@ -954,7 +954,7 @@
             </div>
           </div>
 
-          <button type="button" class="next-cue" data-next="2">
+          <button type="button" class="next-cue" data-next="page-3">
             Lời nhắn nhỏ
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
@@ -973,8 +973,8 @@
             </div>
           </div>
 
-          <button type="button" class="next-cue" data-next="3">
-            Xác nhận tham dự
+          <button type="button" id="page3NextBtn" class="next-cue" data-next="page-4">
+            <span id="page3NextLabel">Xác nhận tham dự</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
         </section>
@@ -1204,8 +1204,12 @@
     const slidesEl = document.getElementById("slides");
     const slideEls = Array.from(document.querySelectorAll(".slide"));
     const dotEls = Array.from(document.querySelectorAll(".nav-dot"));
+    const page4El = document.getElementById("page-4");
     const page5El = document.getElementById("page-5");
+    const dotPage4El = document.getElementById("dotPage4");
     const dotPage5El = document.getElementById("dotPage5");
+    const page3NextBtn = document.getElementById("page3NextBtn");
+    const page3NextLabel = document.getElementById("page3NextLabel");
 
     const displayGuestName = document.getElementById("displayGuestName");
     const displayGuestInline = document.getElementById("displayGuestInline");
@@ -1247,16 +1251,22 @@
       mapsBtn.href = CONFIG.GOOGLE_MAPS_URL;
     }
 
-    function setPage5Unlocked(unlocked) {
-      page5El.classList.toggle("hidden", !unlocked);
-      dotPage5El.classList.toggle("hidden", !unlocked);
+    function syncRsvpViewMode(showConfirmation) {
+      // Khi đã phản hồi: ẩn Trang 4, hiện Trang 5 (Trang 3 nhảy thẳng sang Trang 5).
+      // Khi chưa phản hồi hoặc bấm sửa: hiện Trang 4, ẩn Trang 5.
+      page4El.classList.toggle("hidden", showConfirmation);
+      dotPage4El.classList.toggle("hidden", showConfirmation);
+      page5El.classList.toggle("hidden", !showConfirmation);
+      dotPage5El.classList.toggle("hidden", !showConfirmation);
+      page3NextBtn.dataset.next = showConfirmation ? "page-5" : "page-4";
+      page3NextLabel.textContent = showConfirmation ? "Xem phản hồi của bạn" : "Xác nhận tham dự";
     }
 
     function applyGuestUI(code, resolvedName) {
       state.guestCode = code || "";
       state.guestName = resolvedName || "";
       state.submitted = false;
-      setPage5Unlocked(false);
+      syncRsvpViewMode(false);
 
       if (resolvedName) {
         displayGuestName.textContent = resolvedName + ",";
@@ -1303,8 +1313,8 @@
       applyGuestUI("", "");
     }
 
-    function goToSlide(index) {
-      const target = slideEls[index];
+    function goToPage(pageId) {
+      const target = document.getElementById(pageId);
       if (target && !target.classList.contains("hidden")) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -1315,21 +1325,22 @@
       const scrollTop = slidesEl.scrollTop;
       const slideHeight = slidesEl.clientHeight || 1;
       const idx = Math.min(visibleSlides.length - 1, Math.max(0, Math.round(scrollTop / slideHeight)));
-      dotEls.forEach((dot, i) => {
-        dot.classList.toggle("active", i === idx);
+      const activeId = visibleSlides[idx] ? visibleSlides[idx].id : "page-1";
+      dotEls.forEach((dot) => {
+        dot.classList.toggle("active", dot.dataset.slide === activeId);
       });
     }
 
     slidesEl.addEventListener("scroll", updateActiveDot, { passive: true });
     dotEls.forEach((dot) => {
       dot.addEventListener("click", () => {
-        goToSlide(Number(dot.dataset.slide));
+        goToPage(dot.dataset.slide);
       });
     });
 
     document.querySelectorAll("[data-next]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        goToSlide(Number(btn.dataset.next));
+        goToPage(btn.dataset.next);
       });
     });
 
@@ -1413,7 +1424,7 @@
         }
         renderSummary(saved);
         state.submitted = true;
-        setPage5Unlocked(true);
+        syncRsvpViewMode(true);
       } catch (e) {}
     }
 
@@ -1476,14 +1487,21 @@
 
       renderSummary(payload);
       state.submitted = true;
-      setPage5Unlocked(true);
+      syncRsvpViewMode(true);
       submitBtn.disabled = false;
       submitBtn.textContent = "Xác nhận gửi phản hồi";
-      requestAnimationFrame(() => goToSlide(4));
+      requestAnimationFrame(() => {
+        goToPage("page-5");
+        updateActiveDot();
+      });
     });
 
     editResponseBtn.addEventListener("click", () => {
-      goToSlide(3);
+      syncRsvpViewMode(false);
+      requestAnimationFrame(() => {
+        goToPage("page-4");
+        updateActiveDot();
+      });
     });
 
     function initPreviewBar() {
@@ -1496,7 +1514,7 @@
         select.addEventListener("change", () => {
           const code = select.value;
           applyGuestUI(code, code ? GUEST_LIST[code] : "");
-          goToSlide(1);
+          goToPage("page-2");
         });
       }
     }

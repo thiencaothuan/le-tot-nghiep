@@ -495,6 +495,12 @@
       margin-bottom: 6px;
     }
 
+    .req-star {
+      color: #DC2626;
+      font-weight: 700;
+      margin-left: 2px;
+    }
+
     .field-hint {
       font-size: 12px;
       font-weight: 400;
@@ -988,21 +994,21 @@
             <form id="rsvpForm" class="form-wrap" novalidate>
               <!-- Trường 1: Tên xưng hô -->
               <div>
-                <label class="field-label" for="guestNameInput">1. Tên của bạn</label>
+                <label class="field-label" for="guestNameInput">1. Tên của bạn<span class="req-star">*</span></label>
                 <input id="guestNameInput" name="guestName" type="text" class="text-input" placeholder="Nhập tên hoặc cách xưng hô của bạn..." required />
               </div>
 
               <!-- Email liên hệ -->
               <div>
                 <label class="field-label" for="guestEmailInput">
-                  Email liên hệ <span class="field-hint">(để nhận sơ đồ gửi xe &amp; album ảnh)</span>
+                  Email liên hệ<span class="req-star">*</span> <span class="field-hint">(để nhận sơ đồ gửi xe &amp; album ảnh)</span>
                 </label>
-                <input id="guestEmailInput" name="guestEmail" type="email" class="text-input" placeholder="vi.du@gmail.com" />
+                <input id="guestEmailInput" name="guestEmail" type="email" class="text-input" placeholder="vi.du@gmail.com" required />
               </div>
 
               <!-- Trường 2: Xác nhận tham gia -->
               <div>
-                <span class="field-label">2. Bạn có thể đến chung vui chứ?</span>
+                <span class="field-label">2. Bạn có thể đến chung vui chứ?<span class="req-star">*</span></span>
                 <div class="choice-grid">
                   <button type="button" id="btnAttendYes" class="choice-btn" data-attend="Có">Mình tham gia được</button>
                   <button type="button" id="btnAttendNo" class="choice-btn" data-attend="Không">Tiếc quá mình chưa thể tham gia</button>
@@ -1011,7 +1017,7 @@
 
               <!-- Trường 3a: Khung giờ (hiện khi chọn Tham gia) -->
               <div id="timeSlotBlock" class="hidden">
-                <span class="field-label">3. Chọn khung giờ dự kiến bạn sẽ ghé nhé</span>
+                <span class="field-label">3. Chọn khung giờ dự kiến bạn sẽ ghé nhé<span class="req-star">*</span></span>
                 <div class="slot-grid">
                   <button type="button" class="slot-btn" data-slot="Khung 1: 8h30 - 9h30">
                     <strong>Khung 1</strong>8h30 – 9h30
@@ -1442,8 +1448,8 @@
         return;
       }
 
-      if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        showError("Địa chỉ email có vẻ chưa đúng định dạng, bạn kiểm tra lại giúp Thiên nhé!");
+      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        showError("Bạn vui lòng nhập đúng địa chỉ email để nhận thông tin xác nhận và album ảnh nhé!");
         guestEmailInput.focus();
         return;
       }

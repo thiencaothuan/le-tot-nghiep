@@ -6,7 +6,7 @@
   <title>Thư Mời Lễ Tốt Nghiệp · Cao Thuận Thiên</title>
   <meta name="description" content="Thư mời tham dự Lễ Tốt Nghiệp của Cao Thuận Thiên — Ngành Kỹ thuật Máy tính, ĐH Bách Khoa TP.HCM (Thứ Bảy, 28/11/2026)." />
   <meta property="og:title" content="Thư Mời Lễ Tốt Nghiệp · Cao Thuận Thiên" />
-  <meta property="og:description" content="Thứ Bảy, 28/11/2026 (08:30 – 13:30) tại Trường ĐH Bách Khoa TP.HCM (268 Lý Thường Kiệt). Mở thiệp và xác nhận tham dự nhé!" />
+  <meta property="og:description" content="Thứ Bảy, 28/11/2026 (08:30 – 15:30) tại Trường ĐH Bách Khoa TP.HCM (268 Lý Thường Kiệt). Mở thiệp và xác nhận tham dự nhé!" />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -925,7 +925,7 @@
                 </div>
                 <div>
                   <div class="info-label">Thời gian đón tiếp &amp; chụp ảnh</div>
-                  <div class="info-value">08:30 – 13:30 · Thứ Bảy, 28/11/2026</div>
+                  <div class="info-value">08:30 – 15:30 · Thứ Bảy, 28/11/2026</div>
                 </div>
               </div>
 
@@ -947,15 +947,15 @@
                 <div>
                   <div class="info-label">Liên hệ điều phối &amp; đón khách</div>
                   <div class="info-value" id="displayHotlineText">Thiên · 0394 379 734</div>
-                  <div class="info-sub">Liên hệ khi đến cổng trường để được dẫn vào điểm chụp</div>
+                  <div class="info-sub">Hỗ trợ (Assistant): <strong>Thanh Trúc · 0866 859 255</strong></div>
                 </div>
               </div>
             </div>
 
             <div class="single-action">
-              <a id="mapsBtn" class="btn-link btn-primary" href="https://maps.google.com/?q=268+L%C3%BD+Th%C6%B0%E1%BB%9Dng+Ki%E1%BB%87t,+Qu%E1%BA%ADn+10,+TP.HCM" target="_blank" rel="noopener noreferrer">
+              <a id="mapsBtn" class="btn-link btn-primary" href="https://maps.app.goo.gl/Zan3nnbNinihFR7s7" target="_blank" rel="noopener noreferrer">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                Xem bản đồ Google Maps
+                Xem vị trí đứng trên Google Maps
               </a>
             </div>
           </div>
@@ -1028,8 +1028,11 @@
                   <button type="button" class="slot-btn" data-slot="Khung 3: 10h30 - 11h30">
                     <strong>Khung 3</strong>10h30 – 11h30
                   </button>
-                  <button type="button" class="slot-btn" data-slot="Khung 4: 13h - 13h30">
-                    <strong>Khung 4</strong>13h – 13h30
+                  <button type="button" class="slot-btn" data-slot="Khung 4: 13h - 14h">
+                    <strong>Khung 4</strong>13h – 14h
+                  </button>
+                  <button type="button" class="slot-btn" data-slot="Khung 5: 14h - 15h30" style="grid-column: 1 / -1;">
+                    <strong>Khung 5</strong>14h – 15h30
                   </button>
                 </div>
               </div>
@@ -1041,8 +1044,9 @@
 
               <!-- Trường 4: Lời chúc gửi đến Thiên -->
               <div>
-                <label class="field-label" for="wishInput">4. Lời chúc gửi đến Thiên</label>
-                <textarea id="wishInput" name="wish" class="textarea-input" placeholder="Gửi vài dòng lời chúc hoặc nhắn nhủ cho Thiên nhé..."></textarea>
+                <label class="field-label" for="wishInput">4. Lời chúc gửi đến Thiên <span class="field-hint">(tùy chọn)</span></label>
+                <div class="field-hint" style="margin:0 0 6px;display:block;line-height:1.45;">Nếu đã gửi lời chúc trước đó và không cần chỉnh sửa, có thể bỏ trống ô này — lời chúc cũ vẫn được giữ nguyên.</div>
+                <textarea id="wishInput" name="wish" class="textarea-input" placeholder="Gửi vài dòng lời chúc cho Thiên (hoặc để trống nếu không cần sửa lời chúc cũ)..."></textarea>
               </div>
 
               <div id="formError" class="form-error hidden"></div>
@@ -1113,7 +1117,7 @@
       APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbx0Kxe2runNZUdKqQrD8p5vUdTRYnF1t5UG5EdjTtZgcoJhOPjm_6JtAaumg6dkF6qQ/exec",
 
       // 3. Link Google Maps Cơ sở 1 ĐH Bách Khoa:
-      GOOGLE_MAPS_URL: "https://maps.google.com/?q=268+L%C3%BD+Th%C6%B0%E1%BB%9Dng+Ki%E1%BB%87t,+Qu%E1%BA%ADn+10,+TP.HCM"
+      GOOGLE_MAPS_URL: "https://maps.app.goo.gl/Zan3nnbNinihFR7s7"
     };
 
     /* =========================================================================
@@ -1477,7 +1481,12 @@
       submitBtn.textContent = "Đang gửi phản hồi...";
 
       try {
-        localStorage.setItem(getStorageKey(), JSON.stringify(payload));
+        const prevRaw = localStorage.getItem(getStorageKey());
+        const prev = prevRaw ? JSON.parse(prevRaw) : null;
+        const toSave = Object.assign({}, payload, {
+          wish: payload.wish || (prev && prev.wish) || ""
+        });
+        localStorage.setItem(getStorageKey(), JSON.stringify(toSave));
       } catch (err) {}
 
       if (CONFIG.APPS_SCRIPT_URL) {
